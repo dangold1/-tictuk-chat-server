@@ -19,8 +19,8 @@ app.get('/get-channels', (req, res) => {
 });
 
 app.post('/send-message',(req, res) => {
-    const { channelID, text, userID } = req.body;
-    const message = createMessage({ userID, channelID, text, isSystemMessage: false });
+    const { channelID, text, userID, userName } = req.body;
+    const message = createMessage({ userName, userID, channelID, text, isSystemMessage: false });
     io.emit("RECEIVED_MESSAGE", { message, channelID });
 })
 

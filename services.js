@@ -8,8 +8,9 @@ const createUser = ({ channelID, userName, sessionID }) => {
     return newUser;
 }
 
-const createMessage = ({ userID, channelID, text, isSystemMessage = false }) => {
-    const message = { id: uuidv4(), userID, text, date: new Date(), isSystemMessage };
+const createMessage = ({ userName = null, userID, channelID, text, isSystemMessage = false }) => {
+    let message = { id: uuidv4(), userID, text, date: new Date(), isSystemMessage };
+    if (!isSystemMessage && userName) message.userName = userName;
     const channel = channels.find(channel => channel.id === channelID);
     if (!channel) throw new Error("Channel Not Found");
     channel.messages.push(message);
@@ -18,7 +19,7 @@ const createMessage = ({ userID, channelID, text, isSystemMessage = false }) => 
 
 const getChannelNameByID = channelID => {
     const channel = channels.find(channel => channel.id === channelID);
-    return channel?.name ?? ''
+    return channel?.name ?? '';
 }
 
 module.exports = {
